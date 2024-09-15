@@ -43,6 +43,10 @@
     var player;
     // The cursors
     var cursors;
+    // The score
+    var score = 0;
+    // The score text
+    var scoreText;
 
     function preload ()
     {
@@ -94,7 +98,25 @@ function create ()
         repeat: -1
     });
     
+    // Add stars
+    stars = this.physics.add.group(
+        {
+            key: 'star',
+            // Create 12 (not 11!) stars
+            repeat: 11,
+            setXY: { x: 12, y: 0, stepX: 70 }
+        }
+    ) 
+    stars.children.iterate(function (child) {
+        child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8))
+    })
+    
+    this.physics.add.collider(stars, platforms);
 
+    this.physics.add.overlap(player, stars, collectStar, null, this);
+
+    // Create the score text
+    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 }
 
     function update () {
@@ -125,6 +147,11 @@ function create ()
         }
     }
 
+    function collectStar (player, star) {
+        star.disableBody(true, true);
+        score += 10;
+        scoreText.setText('Score: ' + score);
+    }
 </script>
 
 </body>
