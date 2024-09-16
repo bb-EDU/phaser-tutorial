@@ -47,6 +47,8 @@
     var score = 0;
     // The score text
     var scoreText;
+    // Game over
+    var gameOver = false;
 
     function preload ()
     {
@@ -117,6 +119,14 @@ function create ()
 
     // Create the score text
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+
+    // Create bombs
+
+    bombs = this.physics.add.group()
+
+    this.physics.add.collider(player, bombs, hitBomb, null, this)
+    this.physics.add.collider(bombs, platforms)
+
 }
 
     function update () {
@@ -151,6 +161,36 @@ function create ()
         star.disableBody(true, true);
         score += 10;
         scoreText.setText('Score: ' + score);
+        
+        // If there are no stars, create new
+        if (stars.countActive(true) === 0)
+        {
+        stars.children.iterate(function (child) {
+            // Give the stars a new x and enable them
+
+            child.enableBody(true, child.x, 0, true, true);
+
+        });
+        }
+        // Radom x for the bombs
+        var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+
+        // Create a new bomb
+        var bomb = bombs.create(x, 16, 'bomb');
+        // Make them bounce a lot
+        bomb.setBounce(1);
+        // Make them colide
+        bomb.setCollideWorldBounds(true);
+        // Random velocity
+        bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+
+    }
+
+    function hitBomb(player, bomb){
+        this.physics.pause()
+        player.setTint(0xff0000);
+        player.anims.play('turn')
+        gameOver = true;
     }
 </script>
 
