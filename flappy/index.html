@@ -57,7 +57,6 @@
         // Dynamic group of static physics objects
         platforms = this.physics.add.group();
     
-        this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, platforms, hitPlatform, null, this);
     
         // Choose a random number from -10 to 110
@@ -102,6 +101,7 @@
     }
 
     function hitPlatform (player, platform) {
+        console.log('hit'); 
         player.setTint(0xff0000);
         gameOver = true;
         // Freeze the game
