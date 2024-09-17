@@ -50,6 +50,8 @@
     // Game over
     var gameOver = false;
 
+    var button;
+
     function preload ()
     {
         // Load the images
@@ -129,12 +131,20 @@ function create ()
     this.physics.add.collider(player, bombs, hitBomb, null, this)
     this.physics.add.collider(bombs, platforms)
 
+    // Creare the button (and disable it)
+
+    button = this.add.image(400, 300, 'button').setInteractive().setScale(1.5)
+    button.visible = false;
+    button.on('pointerdown', (event) => {
+        this.scene.restart();
+    });
 }
 
     function update () {
         cursors = this.input.keyboard.createCursorKeys();
         if (cursors.left.isDown) {
             // Go left
+            console.log('left')
             player.setVelocityX(-160);
             // Play the left animation
             player.anims.play('left', true);
@@ -197,12 +207,8 @@ function create ()
     }
 
     function gameOverFun(){
-        const button = this.add.image(400, 300, 'button').setInteractive();
-        button.on('pointerdown', () => {
-            this.scene.restart();
-            score = 0;
-            gameOver = false;
-        })
+        console.log("Game over")
+        button.visible = true;
     }
 
 </script>
