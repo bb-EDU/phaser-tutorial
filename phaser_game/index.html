@@ -172,7 +172,13 @@ function create ()
         // Is the player touching the right wall?
         if (player.x > 780)
         {
-            player.x = 0;
+            player.x = 33;
+        }
+
+        // Is the player touching the left wall?
+        if (player.x < 17)
+        {
+            player.x =  config.width - 33;
         }
         
     }
