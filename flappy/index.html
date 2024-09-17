@@ -36,11 +36,15 @@
 
     var game = new Phaser.Game(config);
 
+    var player;
+    var platforms;
+
     function preload ()
     {
         // Load the images
         this.load.image('sky', 'assets/sky.png');
         this.load.image('bird', 'assets/bird.png');
+        this.load.image('platform', 'assets/platform.png');
     }
 
 
@@ -50,6 +54,25 @@ function create ()
 
     player = this.physics.add.sprite(100, 400, 'bird')
     player.setCollideWorldBounds(true);
+
+    this.physics.add.collider(player, platforms);
+    this.physics.add.collider(player, platforms, hitPlatform, null, this);
+    // Dynamic group of static physics objects
+    platforms = this.physics.add.group();
+
+    // Choose a random number from -10 to 110
+    var x = Phaser.Math.Between(-10, 110);
+
+    platforms.create(400, Phaser.Math.Between(-10, 110), 'platform')
+    platforms.create(400, Phaser.Math.Between(400, 600), 'platform');
+
+    platforms.create(800, Phaser.Math.Between(-10, 110), 'platform')
+    platforms.create(800, Phaser.Math.Between(550, 600), 'platform');
+
+    platforms.setVelocityX(-100);
+
+
+    
 }
 
     function update () {
@@ -63,6 +86,17 @@ function create ()
         }
     
     }
+
+    function hitPlatform (player, platform) {
+        player.setTint(0xff0000);
+        gameOver = true;
+        // Freeze the game
+        this.physics.pause();
+    }
+
+
+    
+
 
 </script>
 
