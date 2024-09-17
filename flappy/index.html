@@ -63,10 +63,13 @@
         var x = Phaser.Math.Between(-10, 110);
     
         platforms.create(400, Phaser.Math.Between(-10, 110), 'platform')
-        platforms.create(400, Phaser.Math.Between(400, 600), 'platform');
-    
+        platforms.create(400, Phaser.Math.Between(550, 650), 'platform');
+
+        platforms.create(600, Phaser.Math.Between(-10, 110), 'platform')
+        platforms.create(600, Phaser.Math.Between(550, 650), 'platform');
+
         platforms.create(800, Phaser.Math.Between(-10, 110), 'platform')
-        platforms.create(800, Phaser.Math.Between(550, 600), 'platform');
+        platforms.create(800, Phaser.Math.Between(550, 650), 'platform');
     
         platforms.setVelocityX(-100);
     
@@ -84,8 +87,7 @@
     
     
         platforms.children.iterate(function (child) { 
-            if (child.x < 16) {
-                child.destroy();
+            if (child.x > 170 && child.x < 172) {
                 var newPlatform = platforms.create(800, Phaser.Math.Between(-10, 110), 'platform')
                 var newPlatform2 = platforms.create(800, Phaser.Math.Between(550, 600), 'platform')
             }
