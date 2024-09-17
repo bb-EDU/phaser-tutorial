@@ -1,0 +1,70 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8" />
+    <title>Making your first Phaser 3 Game - Part 1</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+    var config = {
+        // Choose the renderer - tries WebGL, or returns to Canvas
+        type: Phaser.AUTO,
+        // The width of the game
+        width: 800,
+        // The height of the game
+        height: 600,
+        physics: {
+            default: 'arcade',
+            arcade: {
+                debug: false
+            }
+        },
+        scene: {
+            preload: preload,
+            create: create,
+            update: update
+        }
+    };
+
+    var game = new Phaser.Game(config);
+
+    function preload ()
+    {
+        // Load the images
+        this.load.image('sky', 'assets/sky.png');
+        this.load.image('bird', 'assets/bird.png');
+    }
+
+
+function create ()
+{
+    this.add.image(400, 300, 'sky');
+
+    player = this.physics.add.sprite(100, 400, 'bird')
+    player.setCollideWorldBounds(true);
+}
+
+    function update () {
+        cursors = this.input.keyboard.createCursorKeys();
+        if (cursors.down.isDown) {
+            player.setVelocityY(100);
+        } else if (cursors.up.isDown) {
+            player.setVelocityY(-100);
+        } else {
+            player.setVelocityY(0);
+        }
+    
+    }
+
+</script>
+
+</body>
+</html>
