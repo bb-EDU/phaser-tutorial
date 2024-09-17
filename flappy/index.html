@@ -38,6 +38,7 @@
 
     var player;
     var platforms;
+    var velocity = -100;
     
     function preload ()
     {
@@ -90,8 +91,9 @@
             if (child.x > 170 && child.x < 172) {
                 var newPlatform = platforms.create(800, Phaser.Math.Between(-10, 110), 'platform')
                 var newPlatform2 = platforms.create(800, Phaser.Math.Between(550, 600), 'platform')
+                velocity -= 10;
+                platforms.setVelocityX(velocity);
             }
-            platforms.setVelocityX(-100);
         });
 
         platforms.children.iterate(function (child) {
