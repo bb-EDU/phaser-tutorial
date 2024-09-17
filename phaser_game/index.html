@@ -135,6 +135,7 @@ function create ()
 
     button = this.add.image(400, 300, 'button').setInteractive().setScale(1.5)
     button.visible = false;
+    button.zIndex = 1;
     button.on('pointerdown', (event) => {
         this.scene.restart();
         score = 0;
@@ -145,7 +146,6 @@ function create ()
         cursors = this.input.keyboard.createCursorKeys();
         if (cursors.left.isDown) {
             // Go left
-            console.log('left')
             player.setVelocityX(-160);
             // Play the left animation
             player.anims.play('left', true);
@@ -168,6 +168,13 @@ function create ()
             // Set the velocity to jump
             player.setVelocityY(-330);
         }
+
+        // Is the player touching the right wall?
+        if (player.x > 780)
+        {
+            player.x = 0;
+        }
+        
     }
 
     function collectStar (player, star) {
