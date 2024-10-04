@@ -82,24 +82,12 @@
     
     
         platforms.children.iterate(function (child) { 
-            if (child.x < 10 && child.crossedMiddle == false) {
-                
+            if (child.x < 10) {
                 createPlatform(800);
-                
-                if (velocity > -350) {
-                    velocity -= 15;
-                } else {
-                    velocity = -350;
-                }
-                platforms.setVelocityX(velocity);
-                child.crossedMiddle = true;
-            } 
-        });
-
-        platforms.children.iterate(function (child) {
-            if (this.x < 0) {
+                console.log('crossed middle', child.id);
                 child.destroy();
             }
+            
         });
     
     }
