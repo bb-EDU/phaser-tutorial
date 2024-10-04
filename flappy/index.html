@@ -39,6 +39,7 @@
     var player;
     var platforms;
     var velocity = -100;
+    var cursors;
     
     function preload ()
     {
@@ -63,16 +64,20 @@
         // Choose a random number from -10 to 110
         var x = Phaser.Math.Between(-10, 110);
     
-        platforms.create(400, Phaser.Math.Between(-10, 110), 'platform')
-        platforms.create(400, Phaser.Math.Between(550, 650), 'platform');
+        platforms.create(400, 0, 'platform')
+        platforms.create(400, 600, 'platform');
 
-        platforms.create(600, Phaser.Math.Between(-10, 110), 'platform')
-        platforms.create(600, Phaser.Math.Between(550, 650), 'platform');
+        platforms.create(600, 0, 'platform')
+        platforms.create(600, 600, 'platform');
 
-        platforms.create(800, Phaser.Math.Between(-10, 110), 'platform')
-        platforms.create(800, Phaser.Math.Between(550, 650), 'platform');
+        platforms.create(800, 0, 'platform')
+        platforms.create(800, 600, 'platform');
     
         platforms.setVelocityX(-100);
+
+        platforms.children.iterate(function (child) {
+            child.crossedMiddle = false;
+        });
     
     }
     
@@ -88,12 +93,25 @@
     
     
         platforms.children.iterate(function (child) { 
-            if (child.x > 170 && child.x < 172) {
-                var newPlatform = platforms.create(800, Phaser.Math.Between(-10, 110), 'platform')
-                var newPlatform2 = platforms.create(800, Phaser.Math.Between(550, 600), 'platform')
-                velocity -= 10;
+            if (child.x < 10 && child.crossedMiddle == false) {
+                let randomY = Phaser.Math.Between(0, 20);
+                // First platform, placed at a random Y position between -100 and 350
+                let newPlatform = platforms.create(800, randomY, 'platform');
+
+                // Second platform, placed 150px below the first platform
+                let newPlatform2 = platforms.create(800, 600 -randomY, 'platform');
+                
+                
+                newPlatform.crossedMiddle = false;
+                newPlatform2.crossedMiddle = false;
+                if (velocity > -350) {
+                    velocity -= 15;
+                } else {
+                    velocity = -350;
+                }
                 platforms.setVelocityX(velocity);
-            }
+                child.crossedMiddle = true;
+            } 
         });
 
         platforms.children.iterate(function (child) {
