@@ -58,22 +58,11 @@
     
         // Dynamic group of static physics objects
         platforms = this.physics.add.group();
+
+        createPlatform(600);
+        createPlatform(1000);
     
         this.physics.add.collider(player, platforms, hitPlatform, null, this);
-    
-        // Choose a random number from -10 to 110
-        var x = Phaser.Math.Between(-10, 110);
-    
-        platforms.create(400, 0, 'platform')
-        platforms.create(400, 600, 'platform');
-
-        platforms.create(600, 0, 'platform')
-        platforms.create(600, 600, 'platform');
-
-        platforms.create(800, 0, 'platform')
-        platforms.create(800, 600, 'platform');
-    
-        platforms.setVelocityX(-100);
 
         platforms.children.iterate(function (child) {
             child.crossedMiddle = false;
@@ -94,16 +83,9 @@
     
         platforms.children.iterate(function (child) { 
             if (child.x < 10 && child.crossedMiddle == false) {
-                let randomY = Phaser.Math.Between(0, 20);
-                // First platform, placed at a random Y position between -100 and 350
-                let newPlatform = platforms.create(800, randomY, 'platform');
-
-                // Second platform, placed 150px below the first platform
-                let newPlatform2 = platforms.create(800, 600 -randomY, 'platform');
                 
+                createPlatform(800);
                 
-                newPlatform.crossedMiddle = false;
-                newPlatform2.crossedMiddle = false;
                 if (velocity > -350) {
                     velocity -= 15;
                 } else {
@@ -130,7 +112,19 @@
         this.physics.pause();
     }
 
+    function createPlatform(x) {
+        let randomY = Phaser.Math.Between(-100, 100);
+        // First platform, placed at a random Y position between -100 and 350
+        let newPlatform = platforms.create(x, randomY + 600, 'platform');
 
+        // Second platform, placed 150px below the first platform
+        let newPlatform2 = platforms.create(x, randomY, 'platform');
+        
+        newPlatform.crossedMiddle = false;
+        newPlatform2.crossedMiddle = false;
+
+        platforms.setVelocityX(-100);
+    }
     
 
 
