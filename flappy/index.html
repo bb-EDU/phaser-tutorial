@@ -59,8 +59,15 @@
         // Dynamic group of static physics objects
         platforms = this.physics.add.group();
 
-        createPlatform(600);
-        createPlatform(1000);
+        // Initial platforms
+        createPlatform(600, 0);
+        createPlatform(600, 700);
+
+        createPlatform(900, 0);
+        createPlatform(900, 700);
+
+        createPlatform(1200, 0);
+        createPlatform(1200, 700);
     
         this.physics.add.collider(player, platforms, hitPlatform, null, this);
 
@@ -82,8 +89,8 @@
     
     
         platforms.children.iterate(function (child) { 
-            if (child.x < 10) {
-                createPlatform(800);
+            if (child.x < -40) {
+                createPlatform(800, child.y);
                 console.log('crossed middle', child.id);
                 child.destroy();
             }
@@ -100,18 +107,11 @@
         this.physics.pause();
     }
 
-    function createPlatform(x) {
-        let randomY = Phaser.Math.Between(-100, 100);
-        // First platform, placed at a random Y position between -100 and 350
-        let newPlatform = platforms.create(x, randomY + 600, 'platform');
-
-        // Second platform, placed 150px below the first platform
-        let newPlatform2 = platforms.create(x, randomY, 'platform');
-        
+    function createPlatform(x, y) {
+        let randomY = Phaser.Math.Between(-100, 20);
+        let newPlatform = platforms.create(x, y+randomY, 'platform');
         newPlatform.crossedMiddle = false;
-        newPlatform2.crossedMiddle = false;
-
-        platforms.setVelocityX(-100);
+        newPlatform.setVelocityX(velocity);
     }
     
 
